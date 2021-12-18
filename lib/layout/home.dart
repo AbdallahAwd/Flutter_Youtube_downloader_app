@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_youtube_downloader/flutter_youtube_downloader.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:timeago/timeago.dart'as timeago;
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:youtube_viewer/layout/youtube_viewer.dart';
+
 class YoutubeDownloadPage extends StatefulWidget {
   const YoutubeDownloadPage({Key? key}) : super(key: key);
 
@@ -20,11 +21,7 @@ class _YoutubeDownloadPageState extends State<YoutubeDownloadPage> {
   DateTime youtubeTime = DateTime.now();
   bool isDownloading = false;
   double progress = 0.0;
-  
- 
- 
- 
-  
+
   @override
   void initState() => super.initState();
   @override
@@ -37,78 +34,110 @@ class _YoutubeDownloadPageState extends State<YoutubeDownloadPage> {
             child: Column(
               children: [
                 TextField(
-                  controller:urlController,
-                  onChanged: (value)
-                  {
+                  controller: urlController,
+                  onChanged: (value) {
                     getVideoInfo(value);
                   },
-                  decoration:  InputDecoration(
-                    hintText: 'Paste Video Url',
-                    prefixIcon: const Icon(FontAwesomeIcons.paste),
-                    suffixIcon: IconButton(onPressed: ()
-                    {
-                      urlController.clear();
-                    }, icon: const Icon(Icons.refresh))
-                  ),
+                  decoration: InputDecoration(
+                      hintText: 'Paste Video Url',
+                      prefixIcon: const Icon(FontAwesomeIcons.paste),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            urlController.clear();
+                          },
+                          icon: const Icon(Icons.refresh))),
                 ),
-                const SizedBox(height: 50.0,),
-                if (youtubeVideoName != '') 
-                InkWell(
-                onTap: ()
-                {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> YoutubeViewer(
-                    url: youtubeUrl ,
-                    title: youtubeVideoName,
-                    description: youtubeDescription,
-                    time:youtubeTime,
-                  )));
-                },
-                  child: Card(
-                    elevation: 20.0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.network(
-                            'https://img.youtube.com/vi/$youtubeId/0.jpg' ,
-                          fit: BoxFit.cover,
-                          ),
-                          Text(youtubeVideoName , style: Theme.of(context).textTheme.bodyText1,),
-                          Text(youtubeDescription ,style: Theme.of(context).textTheme.caption,maxLines: 3,),
-                           Row(
-                             mainAxisAlignment: MainAxisAlignment.end,
-                             children: [
-                               Text(timeago.format(youtubeTime) ,style: Theme.of(context).textTheme.caption,),
-                             ],
-                           ),
-
-                        ],
+                const SizedBox(
+                  height: 50.0,
+                ),
+                if (youtubeVideoName != '')
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => YoutubeViewer(
+                                    url: youtubeUrl,
+                                    title: youtubeVideoName,
+                                    description: youtubeDescription,
+                                    time: youtubeTime,
+                                  )));
+                    },
+                    child: Card(
+                      elevation: 20.0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.network(
+                              'https://img.youtube.com/vi/$youtubeId/0.jpg',
+                              fit: BoxFit.cover,
+                            ),
+                            Text(
+                              youtubeVideoName,
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                            Text(
+                              youtubeDescription,
+                              style: Theme.of(context).textTheme.caption,
+                              maxLines: 3,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  timeago.format(youtubeTime),
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                  )
+                else
+                  Column(
+                    children: [
+                      const Icon(
+                        FontAwesomeIcons.youtube,
+                        size: 150,
+                        color: Colors.red,
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        'Paste URL',
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            ?.copyWith(fontSize: 20.0),
+                      ),
+                    ],
                   ),
-                ) else Column(
-                  children: [
-                    const Icon(FontAwesomeIcons.youtube , size: 150,color: Colors.red,),
-                    const SizedBox(height: 20.0,),
-                    Text('Paste URL' , style: Theme.of(context).textTheme.caption?.copyWith(fontSize: 20.0),),
-                  ],
+                const SizedBox(
+                  height: 100.0,
                 ),
-                const SizedBox(height: 100.0,),
-                if (youtubeVideoName != '') TextButton.icon(
-                  onPressed: () {
-                    showBottom(youtubeUrl);
-                  },
-                  icon: const Icon(Icons.download),
-                  label: const Text('Download'),
-
-                ) else const SizedBox(),
-                isDownloading ? Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: LinearProgressIndicator(
-                    value: progress,
-                  ),
-                ) : const SizedBox(),
+                if (youtubeVideoName != '')
+                  TextButton.icon(
+                    onPressed: () {
+                      showBottom(youtubeUrl);
+                    },
+                    icon: const Icon(Icons.download),
+                    label: const Text('Download'),
+                  )
+                else
+                  const SizedBox(),
+                isDownloading
+                    ? Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
           ),
@@ -117,8 +146,7 @@ class _YoutubeDownloadPageState extends State<YoutubeDownloadPage> {
     );
   }
 
-  Future<void> getVideoInfo(videoId) async
-  {
+  Future<void> getVideoInfo(videoId) async {
     var videoInfo = YoutubeExplode();
     var video = await videoInfo.videos.get(videoId);
     setState(() {
@@ -129,52 +157,63 @@ class _YoutubeDownloadPageState extends State<YoutubeDownloadPage> {
       youtubeTime = video.publishDate as DateTime;
     });
   }
-  void showBottom(url)
-  => showModalBottomSheet(context: context, builder: (context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children:  [
-          Row(
+
+  void showBottom(url) => showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: InkWell(
-                  onTap: ()
-                  {
-                    downloadVideo(url);
-                    Navigator.pop(context);
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(FontAwesomeIcons.video ,size: 40.0,),
-                      SizedBox(height: 20,),
-                      Text('Download As video'),
-                    ],
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        downloadVideo(url);
+                        Navigator.pop(context);
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.video,
+                            size: 40.0,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text('Download As video'),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Expanded(
-                child: InkWell(
-                  onTap: (){},
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.audiotrack_outlined ,size: 40.0,),
-                      SizedBox(height: 20,),
-                      Text('Download As audio'),
-                    ],
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {},
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.audiotrack_outlined,
+                            size: 40.0,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text('Download As audio'),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
-    );
-  });
+        );
+      });
   // Future<void> downloadVideos(id) async {
   //   var permisson = await Permission.storage.request();
   //   if (permisson.isGranted) {
@@ -229,11 +268,10 @@ class _YoutubeDownloadPageState extends State<YoutubeDownloadPage> {
   //   }
   // }
   Future<void> downloadVideo(String url) async {
-    var video =await YoutubeExplode().videos.get(url);
+    var video = await YoutubeExplode().videos.get(url);
     // ignore: unused_local_variable
     final result = await FlutterYoutubeDownloader.downloadVideo(
         url, '${video.title}.', 18);
     // print(result);
   }
-  
 }
