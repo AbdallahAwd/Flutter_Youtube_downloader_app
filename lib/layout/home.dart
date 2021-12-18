@@ -26,12 +26,7 @@ class _YoutubeDownloadPageState extends State<YoutubeDownloadPage> {
  
   
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // initDownloadsDirectoryState();
-
-  }
+  void initState() => super.initState();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +98,6 @@ class _YoutubeDownloadPageState extends State<YoutubeDownloadPage> {
                 if (youtubeVideoName != '') TextButton.icon(
                   onPressed: () {
                     showBottom(youtubeUrl);
-                    print(youtubeUrl);
                   },
                   icon: const Icon(Icons.download),
                   label: const Text('Download'),
@@ -236,9 +230,10 @@ class _YoutubeDownloadPageState extends State<YoutubeDownloadPage> {
   // }
   Future<void> downloadVideo(String url) async {
     var video =await YoutubeExplode().videos.get(url);
+    // ignore: unused_local_variable
     final result = await FlutterYoutubeDownloader.downloadVideo(
         url, '${video.title}.', 18);
-    print(result);
+    // print(result);
   }
   
 }

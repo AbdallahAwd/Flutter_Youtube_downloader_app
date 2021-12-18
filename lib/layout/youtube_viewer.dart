@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:timeago/timeago.dart'as timeago;
+
 class YoutubeViewer extends StatefulWidget {
   final String url;
   final String title;
@@ -21,7 +22,8 @@ class _YoutubeViewerState extends State<YoutubeViewer> {
   }
   @override
   void dispose() {
-    /// TODO: implement dispose
+    // ignore: todo
+    // TODO: implement dispose
     super.dispose();
     _controller.pause();
   }
